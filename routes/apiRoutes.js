@@ -96,19 +96,21 @@ router.get("/meals", async (req, res) => {
   }
 });
 
-router.get("/meals/:meal_id", async (req, res) => {
+router.route('/wholeMeal')
+.get(async(req,res)) => {
   try {
-    const meals = await db.Meals.findAll({
-      where: {
-        meal_id: req.params.meal_id,
-      },
+    const meals = await db.Meals.findAll();
+    const macros = await db.Marcos.findAll();
+    const wholeMeals = meals.map(meal) => {
+      const macroEntry = macros.find((macro)) => macro.meal_id == meal.meal_id);
+      console.log('meal',meal)
+      console.log('macroEntry', macroEntry);
+
+      return {
+        ...meal.dataValues,
+        ...macroEntry.dataValues
+      };
     });
-    res.json(meals);
-  } catch (err) {
-    console.error(err);
-    res.error("Server error");
-  }
-});
 
 router.put("/meals", async (req, res) => {
   try {
@@ -123,10 +125,10 @@ router.put("/meals", async (req, res) => {
         },
       }
     );
-    res.send("Meal Successfully Updated");
+    res.json({data: wholeMeals});
   } catch (err) {
     console.error(err);
-    res.error("Server error");
+    res.json({message: 'Something went wrong on the server'});
   }
 });
 

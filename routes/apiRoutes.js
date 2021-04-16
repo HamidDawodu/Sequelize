@@ -86,7 +86,7 @@ router.put("/dining", async (req, res) => {
 /// /////////////////////////////////
 /// ////////Meals Endpoints//////////
 /// /////////////////////////////////
-router.route('/WholeMeal')
+router.route('/wholeMeal')
 .get(async (req,res) => {
   try {
     const meals = await db.Meals.findAll();

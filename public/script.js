@@ -174,6 +174,6 @@ async function windowActions() {
       chart.render();
     }
   });
-  return selectedMeals;
-}
+   return selectedMeals;
+ }
 window.onload = windowActions;
